@@ -27,8 +27,7 @@ export default defineComponent({
     ]
 
     onMounted(() => {
-      console.log('test')
-      window.apiFile
+      return
     })
 
     return {

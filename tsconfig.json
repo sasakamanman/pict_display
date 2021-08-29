@@ -37,7 +37,4 @@
   "exclude": [
     "node_modules"
   ],
-  "files": [
-    "@types/global.d.ts"
-  ]
 }

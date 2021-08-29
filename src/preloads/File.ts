@@ -2,7 +2,7 @@ import { FileDTO } from "@/model/dto/File";
 import { contextBridge, ipcRenderer } from "electron";
 
 export const rendererFile = () => {
-  contextBridge.exposeInMainWorld("file", {
+  contextBridge.exposeInMainWorld("fileApi", {
     selectFile: async () => {
       // ipcRenderer.invoke("selectFile")
       const dto: FileDTO = {
@@ -15,6 +15,6 @@ export const rendererFile = () => {
 }
 
 
-export interface apiFile {
+export interface fileApi {
   selectFile: () => Promise<FileDTO>
 }
