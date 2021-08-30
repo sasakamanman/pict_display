@@ -1,11 +1,23 @@
 <template>
-    <input type="button" value="ファイル選択" />
+    <base-button :message="'ファイル選択'" @clicked="onClicked" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue"
+import BaseButton from "../BaseComponents/BaseButton.vue"
 
 export default defineComponent({
-    name: "SelectButton",
+  components: { BaseButton },
+  name: "SelectButton",
+  emits: ["clicked"],
+  setup(props, { emit }) {
+    const onClicked = () => {
+        emit("clicked")
+    }
+
+    return {
+        onClicked
+    }
+  }
 })
 </script>

@@ -1,10 +1,16 @@
-"use strict";
+"use strict"
 
-import { app, protocol, BrowserWindow } from "electron";
-import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+import { app, protocol, BrowserWindow } from "electron"
+import { createProtocol } from "vue-cli-plugin-electron-builder/lib"
+import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer"
 import path from 'path'
-const isDevelopment = process.env.NODE_ENV !== "production";
+import { FileManager } from "./model/class/File"
+import { FileDTO } from "./model/dto/File"
+const isDevelopment = process.env.NODE_ENV !== "production"
+
+let mainWindow: BrowserWindow
+
+let fileManager: FileManager
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -13,7 +19,7 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -30,12 +36,12 @@ async function createWindow() {
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
-    if (!process.env.IS_TEST) win.webContents.openDevTools();
+    await mainWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
+    if (!process.env.IS_TEST) mainWindow.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
-    win.loadURL("app://./index.html");
+    mainWindow.loadURL("app://./index.html");
   }
 }
 
@@ -66,8 +72,15 @@ app.on("ready", async () => {
       console.error("Vue Devtools failed to install:", e.toString());
     }
   }
-  createWindow();
-});
+  createWindow()
+
+  fileManager = new FileManager(mainWindow)
+
+  fileManager.on("fileSelected", (fileDTO: FileDTO) => {
+    console.log(fileDTO.fileName)
+  })
+
+})
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {

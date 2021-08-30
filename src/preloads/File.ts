@@ -3,18 +3,30 @@ import { contextBridge, ipcRenderer } from "electron";
 
 export const rendererFile = () => {
   contextBridge.exposeInMainWorld("fileApi", {
-    selectFile: async () => {
-      // ipcRenderer.invoke("selectFile")
-      const dto: FileDTO = {
-        id: 0,
-        fileName: "abc.png",
-        filePath: "C:\\abc.png"
-      }
+    selectFile: () => {
+      ipcRenderer.send("selectFile")
     },
+
+    recieveFileList: (listener: Function) => {
+      ipcRenderer.on('sendFileList', (evt:any, fileNameList: FileDTO[]) => {
+        listener(fileNameList)
+      })
+    },
+
+    completeLoading: () => {
+      ipcRenderer.send('completeLoading')
+    },
+
+    deleteFile: (id: number) => {
+      ipcRenderer.send('deleteFile', id)
+    }
   })
 }
 
 
 export interface fileApi {
-  selectFile: () => Promise<FileDTO>
+  selectFile: () => void
+  completeLoading: () => void
+  recieveFileList: (listener: Function) => void
+  deleteFile: (id: number) => void
 }
