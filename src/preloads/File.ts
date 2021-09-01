@@ -7,6 +7,10 @@ export const rendererFile = () => {
       ipcRenderer.send("selectFile")
     },
 
+    getFile: () => {
+      return ipcRenderer.invoke('getFile')
+    },
+
     recieveFileList: (listener: Function) => {
       ipcRenderer.on('sendFileList', (evt:any, fileNameList: FileDTO[]) => {
         listener(fileNameList)
@@ -26,6 +30,7 @@ export const rendererFile = () => {
 
 export interface fileApi {
   selectFile: () => void
+  getFile: () => Promise<string>
   completeLoading: () => void
   recieveFileList: (listener: Function) => void
   deleteFile: (id: number) => void

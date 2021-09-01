@@ -7,3 +7,9 @@ interface EventFile {
 }
 
 export type FileEventType = StrictEventEmitter<EventEmitter, EventFile>
+
+interface EventWindow {
+  switchFocusable: () => void
+}
+
+export type WindowEventType = StrictEventEmitter<EventEmitter, EventWindow>

@@ -1,13 +1,10 @@
 import { BrowserWindow, dialog, ipcMain } from "electron"
 import { FileDTO } from "../dto/File"
-import EventEmitter from 'events'
+import EventEmitter from "events"
 import { FileEventType } from "@/interface/EventEmitter"
 
 export class FileManager extends (EventEmitter as {new(): FileEventType}) {
-  private fileList: FileDTO[] = [
-    {fileName: 'あいう.png', filePath: 'c:\\あいう.png'},
-    {fileName: 'かきく.png', filePath: 'c:\\かきく.png'}
-  ]
+  private fileList: FileDTO[] = []
 
   private mainWindow: BrowserWindow
   private currentId: number = 0
@@ -21,29 +18,29 @@ export class FileManager extends (EventEmitter as {new(): FileEventType}) {
       this.selectFile()
     })
 
-    ipcMain.on('completeLoading', (event) => {
+    ipcMain.on("completeLoading", (event) => {
       this.sendFileList()
     })
 
-    ipcMain.on('deleteFile', (event, id: number) => {
+    ipcMain.on("deleteFile", (event, id: number) => {
       this.deleteFile(id)
     })
   }
 
   private sendFileList() {
-    this.mainWindow.webContents.send('sendFileList', this.fileList)
+    this.mainWindow.webContents.send("sendFileList", this.fileList)
   }
 
   private selectFile() {
     const filePathList = dialog.showOpenDialogSync(this.mainWindow, {
-      filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }],
+      filters: [{ name: "Images", extensions: ["jpg", "png", "gif", "apng"] }],
       properties: ["openFile"]
     })
 
     if (filePathList === undefined) { return }
 
     const filePath = filePathList[0]
-    const fileName = filePath.split('\\').slice(-1)[0]
+    const fileName = filePath.split("\\").slice(-1)[0]
 
     const dto: FileDTO = {
       id: this.getNewId(),
