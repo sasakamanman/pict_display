@@ -42,8 +42,8 @@ export class WindowManager extends (EventEmitter as {new(): WindowEventType}) {
   private async standUpSubWindow(fileDTO: FileDTO) {
     const subWindow = new BrowserWindow({
       parent: this.mainWindow,
-      width: 200,
-      height: 200,
+      width: 400,
+      height: 400,
       transparent: true,
       frame: false,
       alwaysOnTop: true,

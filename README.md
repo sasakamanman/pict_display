@@ -1,34 +1,14 @@
-# pict_disp
+# Pict Display
+指定した画像を常に最前面に表示します。
 
-## Project setup
-```
-yarn install
-```
+## How to Use
+インストーラをダウンロードし、実行してください。
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Licence
+MITライセンスです。
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Donation
+[こちら](https://store.steampowered.com/wishlist/profiles/76561198118875295/#sort=order)か[こちら](https://www.amazon.jp/hz/wishlist/ls/1CCUYA6P6H71Y?ref_=wl_share)にてお願いします。
 
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Author
+[sasakaman](https://github.com/sasakamanman)
