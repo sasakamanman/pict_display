@@ -3,6 +3,7 @@ import { EventEmitter } from "events"
 import { FileDTO } from "@/model/dto/File"
 import { WindowEventType } from "@/interface/EventEmitter"
 import path from "path"
+import { ImageEncoder } from "./Encoder"
 
 interface WindowItem {
   id: number,
@@ -27,7 +28,7 @@ export class WindowManager extends (EventEmitter as {new(): WindowEventType}) {
       const target = this.windowList.filter(
         winItem => winItem.window.webContents.id == senderId
       )[0]
-      return target.filePath
+      return ImageEncoder.encodeImage(target.filePath)
     })
   }
 
@@ -42,8 +43,8 @@ export class WindowManager extends (EventEmitter as {new(): WindowEventType}) {
   private async standUpSubWindow(fileDTO: FileDTO) {
     const subWindow = new BrowserWindow({
       parent: this.mainWindow,
-      width: 400,
-      height: 400,
+      width: 300,
+      height: 300,
       transparent: true,
       frame: false,
       alwaysOnTop: true,
@@ -74,7 +75,7 @@ export class WindowManager extends (EventEmitter as {new(): WindowEventType}) {
       subWindow.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string + '#/display')
     } else {
       // Load the index.html when not in development
-      subWindow.loadURL("app://./index.html")
+      subWindow.loadURL("app://./index.html#display")
     }
 
     const switchFocusable = () => {

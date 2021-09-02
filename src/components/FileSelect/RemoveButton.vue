@@ -1,6 +1,6 @@
 <template>
   <span>
-    <base-button :message="'削除 > ' + id" @clicked="onClicked" />
+    <base-button :message="'削除'" @clicked="onClicked" />
   </span>
 </template>
 

@@ -10,7 +10,7 @@ import { defineComponent} from 'vue'
 export default defineComponent({
   name: "FileView",
   async setup() {
-    let fileName = "file://" + await window.fileApi.getFile()
+    let fileName = await window.fileApi.getFile()
     return {
       fileName
     }

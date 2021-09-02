@@ -33,7 +33,7 @@ export class FileManager extends (EventEmitter as {new(): FileEventType}) {
 
   private selectFile() {
     const filePathList = dialog.showOpenDialogSync(this.mainWindow, {
-      filters: [{ name: "Images", extensions: ["jpg", "png", "gif", "apng"] }],
+      filters: [{ name: "Images", extensions: ["jpg", "png", "gif"] }],
       properties: ["openFile"]
     })
 
