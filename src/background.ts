@@ -7,12 +7,14 @@ import path from 'path'
 import { FileManager } from "./model/class/File"
 import { FileDTO } from "./model/dto/File"
 import { WindowManager } from "./model/class/WindowManager"
+import { PictSizeManager } from "./model/class/SizeManager"
 const isDevelopment = process.env.NODE_ENV !== "production"
 
 let mainWindow: BrowserWindow
 
 let fileManager: FileManager
 let windowManager: WindowManager
+let sizeManager: PictSizeManager
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -83,20 +85,25 @@ app.on("ready", async () => {
     try {
       await installExtension(VUEJS3_DEVTOOLS)
     } catch (e) {
-      console.error("Vue Devtools failed to install:", e.toString())
+      console.error("Vue Devtools failed to install:", String(e))
     }
   }
   createWindow()
 
   windowManager = new WindowManager(mainWindow)
   fileManager = new FileManager(mainWindow)
+  sizeManager = new PictSizeManager(mainWindow)
   
   fileManager.on("fileSelected", (fileDTO: FileDTO) => {
-    windowManager.makeSubWindow(fileDTO)
+    sizeManager.askPictSize(fileDTO)
   })
 
   windowManager.on("switchFocusable", () => {
     switchFocusable()
+  })
+
+  sizeManager.on("recieveFileSize", (fileDTO: FileDTO, fileSize) => {
+    windowManager.makeSubWindow(fileDTO, fileSize)
   })
 
 })

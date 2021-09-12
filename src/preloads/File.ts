@@ -1,5 +1,6 @@
 import { FileDTO } from "@/model/dto/File";
 import { contextBridge, ipcRenderer } from "electron";
+import { ImageSize } from "@/interface/ImageSize";
 
 export const rendererFile = () => {
   contextBridge.exposeInMainWorld("fileApi", {
@@ -23,6 +24,14 @@ export const rendererFile = () => {
 
     deleteFile: (id: number) => {
       ipcRenderer.send('deleteFile', id)
+    },
+
+    sendFileSize: (id:number, width: number, height: number) => {
+      ipcRenderer.send("recieveFileSize", {id: id, width: width, height: height})
+    },
+
+    getPreviewFile: async () => {
+      return await ipcRenderer.invoke("getPreviewFile")
     }
   })
 }
@@ -34,4 +43,6 @@ export interface fileApi {
   completeLoading: () => void
   recieveFileList: (listener: Function) => void
   deleteFile: (id: number) => void
+  sendFileSize: (id:number, width: number, height: number) => void
+  getPreviewFile: () => Promise<[string, ImageSize]>
 }

@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from "electron"
+import { BrowserWindow, ipcMain, screen } from "electron"
 import { EventEmitter } from "events"
 import { FileDTO } from "@/model/dto/File"
 import { WindowEventType } from "@/interface/EventEmitter"
@@ -32,19 +32,22 @@ export class WindowManager extends (EventEmitter as {new(): WindowEventType}) {
     })
   }
 
-  async makeSubWindow(fileDTO: FileDTO) {
-    const subWindow = await this.standUpSubWindow(fileDTO)
+  async makeSubWindow(fileDTO: FileDTO, fileSize: {width: number, height: number}) {
+    const subWindow = await this.standUpSubWindow(fileDTO, fileSize)
     this.windowList.push({id: fileDTO.id!, window: subWindow, filePath: fileDTO.filePath})
     this.setUpSubWindow(subWindow)
 
     this.emit("switchFocusable")
     }
 
-  private async standUpSubWindow(fileDTO: FileDTO) {
+  private async standUpSubWindow(fileDTO: FileDTO, fileSize: {width: number, height: number}) {
+    const screenSize = screen.getPrimaryDisplay().workAreaSize
+    const width = Math.min(fileSize.width, screenSize.width)
+    const height = width * ( fileSize.height / fileSize.width)
     const subWindow = new BrowserWindow({
       parent: this.mainWindow,
-      width: 300,
-      height: 300,
+      width: width,
+      height: height,
       transparent: true,
       frame: false,
       alwaysOnTop: true,

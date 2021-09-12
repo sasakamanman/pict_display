@@ -10,6 +10,9 @@ Download and execute the installerr.
 **選択**をクリックすると画像を選択できます。  
 Select file by clicking **'選択'**.  
   
+次のウィンドウで幅と高さを入力し、**サイズ決定**をクリックします。
+Input image width and height, and click **サイズ決定** in popup window.
+  
 メインウィンドウがアクティブな場合のみ、画像をドラッグして移動できます。  
 Images is dragable only when main window is active.  
 

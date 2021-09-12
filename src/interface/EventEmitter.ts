@@ -13,3 +13,9 @@ interface EventWindow {
 }
 
 export type WindowEventType = StrictEventEmitter<EventEmitter, EventWindow>
+
+interface EventSizeManager {
+  recieveFileSize: (fileDTO: FileDTO, fileSize: {width: number, height: number}) => void
+}
+
+export type SizeManagerEventType = StrictEventEmitter<EventEmitter, EventSizeManager>

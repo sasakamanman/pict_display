@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="fileName">
+    <img :src="file">
   </div>
 </template>
 
@@ -10,9 +10,9 @@ import { defineComponent} from 'vue'
 export default defineComponent({
   name: "FileView",
   async setup() {
-    let fileName = await window.fileApi.getFile()
+    let file = await window.fileApi.getFile()
     return {
-      fileName
+      file
     }
   }
 })
@@ -28,8 +28,8 @@ export default defineComponent({
 
   img {
     -webkit-app-region: drag;
-    max-height: 100%;
-    max-width: 100%;
+    height: 100%;
+    width: 100%;
   }
 
 </style>
